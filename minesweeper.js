@@ -11,6 +11,7 @@ function startGame () {
   for (var i = 0; i < board.length; i++) {
     addListeners(board[i]);
     getRow(board[i]);
+    getCol(board[i]);
   }
 }
 
@@ -26,6 +27,20 @@ function getRow(ele) {
     if (className[i].indexOf("row-") > -1) {
       // console.log(className[i]);
        return (className[i].split("row-").join(""));
+    }
+  }
+
+  // console.log(row[1]);
+}
+
+function getCol(ele) {
+  var className = ele.classList;
+  for (var i = 0; i < className.length; i++) {
+    // console.log(className[i]);
+    if (className[i].indexOf("col-") > -1) {
+      // console.log(className[i]);
+       return (className[i].split("col-").join(""));
+      //  console.log(className[i].split("col-").join(""));
     }
   }
 
