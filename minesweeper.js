@@ -9,8 +9,14 @@ function startGame () {
 
 function addListeners(elem) {
   elem.addEventListener('click', showCell);
+  elem.addEventListener('contextmenu', markCell);
 }
 
 function showCell(event) {
   event.target.classList.remove('hidden');
+}
+
+function markCell(event) {
+  event.preventDefault();
+  event.target.classList.toggle('marked');
 }
