@@ -13,6 +13,10 @@ function startGame () {
     addCellToBoard(boardChildren[i]);
   }
 
+  for (var j = 0; j < board.cells.length; j++) {
+      board.cells[j].surroundingMines = countMines(board.cells[j]);
+  }
+
   console.log(board);
 }
 
@@ -65,6 +69,21 @@ function addCellToBoard(ele) {
   board.cells.push(newCell);
 
 
+}
+
+function countMines(cells) {
+
+  var surroundingCells = getSurroundingCells(cells.row, cells.col);
+  var count = 0;
+
+
+  for (var i = 0; i < surroundingCells.length; i++) {
+    if (surroundingCells[i].isMine) {
+      count++;
+    }
+  }
+
+  return count;
 }
 
 function showCell(event) {
