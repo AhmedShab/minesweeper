@@ -7,12 +7,13 @@ var board = {
 };
 
 function startGame () {
-  var board = document.getElementsByClassName('board')[0].children;
-  for (var i = 0; i < board.length; i++) {
-    addListeners(board[i]);
-    getRow(board[i]);
-    getCol(board[i]);
+  var boardChildren = document.getElementsByClassName('board')[0].children;
+  for (var i = 0; i < boardChildren.length; i++) {
+    addListeners(boardChildren[i]);
+    addCellToBoard(boardChildren[i]);
   }
+
+  console.log(board);
 }
 
 function addListeners(elem) {
@@ -45,6 +46,25 @@ function getCol(ele) {
   }
 
   // console.log(row[1]);
+}
+
+function addCellToBoard(ele) {
+  var newCell = {};
+
+  newCell.row = getRow(ele);
+  newCell.col = getRow(ele);
+
+  if(!ele.classList.contains("mine")){
+    newCell.isMine = true;
+  }
+  else {
+    newCell.isMine = false;
+  }
+
+
+  board.cells.push(newCell);
+
+
 }
 
 function showCell(event) {
