@@ -17,7 +17,6 @@ function startGame () {
       board.cells[j].surroundingMines = countMines(board.cells[j]);
   }
 
-  console.log(board);
 }
 
 function addListeners(elem) {
@@ -93,4 +92,15 @@ function showCell(event) {
 function markCell(event) {
   event.preventDefault();
   event.target.classList.toggle('marked');
+  event.target.classList.toggle('hidden');
+
+
+  for (var i = 0; i < board.cells.length; i++) {
+    if ( (board.cells[i].row === getRow(event.target)) &&
+       (board.cells[i].col === getCol(event.target)) ) {
+         board.cells[i].isMarked = true;
+    }
+
+  }
+  console.log(board);
 }
