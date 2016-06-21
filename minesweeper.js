@@ -14,8 +14,10 @@ function startGame () {
   }
 
   for (var j = 0; j < board.cells.length; j++) {
-      board.cells[j].surroundingMines = countMines(board.cells[j]);
+      board.cells[j].surroundingMines = countSurroundingMines(board.cells[j]);
   }
+
+  console.log(board);
 
 }
 
@@ -70,7 +72,7 @@ function addCellToBoard(ele) {
 
 }
 
-function countMines(cells) {
+function countSurroundingMines(cells) {
 
   var surroundingCells = getSurroundingCells(cells.row, cells.col);
   var count = 0;
@@ -88,15 +90,15 @@ function countMines(cells) {
 function checkForWin() {
   var mines = document.getElementsByClassName('board')[0].children;
   // console.log(mines);
-  // for (var i = 0; i < board.cells.length; i++) {
-  //   if (board.cells[i].isMine && board.cells[i].isMarked){
-  //
-  //   }
-  //   else {
-  //     return;
-  //   }
-  //
-  // }
+  for (var i = 0; i < board.cells.length; i++) {
+    if (board.cells[i].isMine && board.cells[i].isMarked){
+
+    }
+    else {
+      return;
+    }
+
+  }
 
   for (var j = 0; j < mines.length; j++) {
     if (mines[j].classList.contains('hidden')){
@@ -108,8 +110,27 @@ function checkForWin() {
 
 }
 
+function showAllMines() {
+  var mines = document.getElementsByClassName('board')[0].children;
+
+  for (var j = 0; j < mines.length; j++) {
+    if (mines[j].classList.contains('mine')){
+      mines[j].classList.remove("hidden");
+    }
+  }
+}
+
 function showCell(event) {
-  event.target.classList.remove('hidden');
+  var targetEvent = event.target.classList;
+
+  targetEvent.remove('hidden');
+
+  if(targetEvent.contains("mines")){
+    showAllMines();
+  }
+
+
+  showSurrounding(event.target);
   checkForWin();
 }
 
