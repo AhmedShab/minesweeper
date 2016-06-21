@@ -85,8 +85,32 @@ function countMines(cells) {
   return count;
 }
 
+function checkForWin() {
+  var mines = document.getElementsByClassName('board')[0].children;
+  // console.log(mines);
+  // for (var i = 0; i < board.cells.length; i++) {
+  //   if (board.cells[i].isMine && board.cells[i].isMarked){
+  //
+  //   }
+  //   else {
+  //     return;
+  //   }
+  //
+  // }
+
+  for (var j = 0; j < mines.length; j++) {
+    if (mines[j].classList.contains('hidden')){
+      return;
+    }
+  }
+
+  alert("You won the game!!");
+
+}
+
 function showCell(event) {
   event.target.classList.remove('hidden');
+  checkForWin();
 }
 
 function markCell(event) {
@@ -102,5 +126,7 @@ function markCell(event) {
     }
 
   }
-  console.log(board);
+
+  checkForWin();
+  // console.log(board);
 }
