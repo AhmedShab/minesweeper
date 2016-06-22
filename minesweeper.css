@@ -10,10 +10,14 @@ body {
 }
 
 .board {
-  width: 420px;
-  height: 420px;
+  width: 450px;
+  height: 450px;
   display: flex;
   flex-wrap: wrap;
+}
+
+.size {
+  display: flex;
 }
 
 .board div {

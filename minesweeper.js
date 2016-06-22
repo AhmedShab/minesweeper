@@ -92,7 +92,6 @@ function addRandomBombs(mines) {
     mines[random].classList.add(mine);
 
     pre = random;
-    // console.log(random);
   }
 }
 
