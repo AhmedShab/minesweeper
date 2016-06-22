@@ -8,6 +8,8 @@ var board = {
 
 function startGame () {
   var boardChildren = document.getElementsByClassName('board')[0].children;
+  addRandomBombs(boardChildren);
+
   for (var i = 0; i < boardChildren.length; i++) {
     addListeners(boardChildren[i]);
     addCellToBoard(boardChildren[i]);
@@ -76,6 +78,24 @@ function countSurroundingMines(cell) {
   return count;
 }
 
+function addRandomBombs(mines) {
+  var mine = "mine";
+  var max = 5;
+  var pre;
+
+  for (var i = 0; i < max; i++) {
+    var random = Math.floor(Math.random() * mines.length);
+    if (pre === random) {
+      random = Math.floor(Math.random() * mines.length);
+    }
+
+    mines[random].classList.add(mine);
+
+    pre = random;
+    // console.log(random);
+  }
+}
+
 function checkForWin(audio) {
   var mines = document.getElementsByClassName('board')[0].children;
   var maxMines = 0;
@@ -115,7 +135,7 @@ function showAllMines() {
 
 function restart() {
   location.reload();
-  }
+}
 
 function showCell(event) {
   var targetEvent = event.target.classList;
