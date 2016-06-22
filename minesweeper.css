@@ -16,10 +16,6 @@ body {
   flex-wrap: wrap;
 }
 
-.size {
-  display: flex;
-}
-
 .board div {
   color: green;
   font-size: 2rem;
