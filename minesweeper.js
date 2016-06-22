@@ -124,7 +124,7 @@ function showCell(event) {
   if(targetEvent.contains("mine")){
     showAllMines();
     audio[0].play();
-    alert("You loss!!");
+    alert("You lose!!");
     return restart();
   }
 
