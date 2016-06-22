@@ -14,7 +14,9 @@ function startGame () {
   }
 
   for (var j = 0; j < board.cells.length; j++) {
-      board.cells[j].surroundingMines = countSurroundingMines(board.cells[j]);
+    board.cells[j].surroundingMines = countSurroundingMines(board.cells[j]);
+
+
   }
 
   console.log(board);
@@ -27,56 +29,43 @@ function addListeners(elem) {
 }
 
 function getRow(ele) {
-  var className = ele.classList;
-  for (var i = 0; i < className.length; i++) {
-    // console.log(className[i]);
-    if (className[i].indexOf("row-") > -1) {
-      // console.log(className[i]);
-       return (className[i].split("row-").join(""));
+  var classNames = ele.classList;
+  for (var i = 0; i < classNames.length; i++) {
+    if (classNames[i].indexOf("row-") > -1) {
+      return (parseInt(classNames[i].split("row-").join("")));
     }
   }
 
-  // console.log(row[1]);
 }
 
 function getCol(ele) {
-  var className = ele.classList;
-  for (var i = 0; i < className.length; i++) {
-    // console.log(className[i]);
-    if (className[i].indexOf("col-") > -1) {
-      // console.log(className[i]);
-       return (className[i].split("col-").join(""));
-      //  console.log(className[i].split("col-").join(""));
+  var classNames = ele.classList;
+  for (var i = 0; i < classNames.length; i++) {
+    if (classNames[i].indexOf("col-") > -1) {
+      return (parseInt(classNames[i].split("col-").join("")));
     }
   }
 
-  // console.log(row[1]);
 }
 
 function addCellToBoard(ele) {
   var newCell = {};
 
   newCell.row = getRow(ele);
-  newCell.col = getRow(ele);
-
-  if(!ele.classList.contains("mine")){
-    newCell.isMine = true;
-  }
-  else {
-    newCell.isMine = false;
-  }
+  newCell.col = getCol(ele);
+  newCell.isMine = ele.classList.contains("mine");
 
 
   board.cells.push(newCell);
 
-
 }
 
-function countSurroundingMines(cells) {
+function countSurroundingMines(cell) {
 
-  var surroundingCells = getSurroundingCells(cells.row, cells.col);
+
+
+  var surroundingCells = getSurroundingCells(cell.row, cell.col);
   var count = 0;
-
 
   for (var i = 0; i < surroundingCells.length; i++) {
     if (surroundingCells[i].isMine) {
@@ -87,26 +76,30 @@ function countSurroundingMines(cells) {
   return count;
 }
 
-function checkForWin() {
+function checkForWin(audio) {
   var mines = document.getElementsByClassName('board')[0].children;
-  // console.log(mines);
+  var maxMines = 0;
   for (var i = 0; i < board.cells.length; i++) {
     if (board.cells[i].isMine && board.cells[i].isMarked){
-
+      maxMines++;
     }
-    else {
-      return;
+    else if (!board.cells[i].isMine && board.cells[i].isMarked){
+      maxMines++;
     }
 
   }
 
-  for (var j = 0; j < mines.length; j++) {
-    if (mines[j].classList.contains('hidden')){
-      return;
+  if (maxMines === 5) {
+
+    for (var j = 0; j < mines.length; j++) {
+      if (mines[j].classList.contains('hidden')){
+        return;
+      }
+      audio[1].play();
+      alert("You won the game!!");
+      return restart();
     }
   }
-
-  alert("You won the game!!");
 
 }
 
@@ -120,21 +113,32 @@ function showAllMines() {
   }
 }
 
+function restart() {
+  location.reload();
+  }
+
 function showCell(event) {
   var targetEvent = event.target.classList;
+  var audio = document.getElementsByTagName("audio");
 
-  targetEvent.remove('hidden');
-
-  if(targetEvent.contains("mines")){
+  if(targetEvent.contains("mine")){
     showAllMines();
+    audio[0].play();
+    alert("You loss!!");
+    return restart();
+  }
+
+  else {
+    targetEvent.remove('hidden');
+    showSurrounding(event.target);
+    checkForWin(audio);
   }
 
 
-  showSurrounding(event.target);
-  checkForWin();
 }
 
 function markCell(event) {
+  var audio = document.getElementsByTagName("audio");
   event.preventDefault();
   event.target.classList.toggle('marked');
   event.target.classList.toggle('hidden');
@@ -142,12 +146,10 @@ function markCell(event) {
 
   for (var i = 0; i < board.cells.length; i++) {
     if ( (board.cells[i].row === getRow(event.target)) &&
-       (board.cells[i].col === getCol(event.target)) ) {
-         board.cells[i].isMarked = true;
+    (board.cells[i].col === getCol(event.target)) ) {
+      board.cells[i].isMarked = true;
     }
 
   }
-
-  checkForWin();
-  // console.log(board);
+  checkForWin(audio);
 }
